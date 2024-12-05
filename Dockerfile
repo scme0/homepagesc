@@ -9,7 +9,7 @@ RUN dotnet test
 
 RUN dotnet publish HomepageSC/HomepageSC.csproj -a $TARGETARCH --self-contained --no-restore -c Release -o /app
 
-FROM mcr.microsoft.com/dotnet/runtime:8.0-jammy-chiseled-extra AS final
+FROM mcr.microsoft.com/dotnet/runtime:8.0-jammy-chiseled-extra
 WORKDIR /app
 
 COPY --link --from=publish /app .
