@@ -1,11 +1,11 @@
 ﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS publish
 ARG TARGETARCH
 WORKDIR /src
-COPY --link  HomepageSC/HomepageSC.csproj .
-RUN dotnet restore -a $TARGETARCH
+COPY --link . .
+RUN dotnet restore HomepageSC/HomepageSC.csproj -a $TARGETARCH
 
 COPY --link . .
-RUN dotnet test
+RUN dotnet test HomepageSC.Tests/HomepageSC.Tests.csproj
 
 RUN dotnet publish HomepageSC/HomepageSC.csproj -a $TARGETARCH --self-contained --no-restore -c Release -o /app
 
