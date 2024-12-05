@@ -2,10 +2,10 @@
 ARG TARGETARCH
 WORKDIR /src
 COPY --link . .
-RUN dotnet restore HomepageSC/HomepageSC.csproj -a $TARGETARCH
+RUN dotnet restore -a $TARGETARCH
 
 COPY --link . .
-RUN dotnet test HomepageSC.Tests/HomepageSC.Tests.csproj
+RUN dotnet test
 
 RUN dotnet publish HomepageSC/HomepageSC.csproj -a $TARGETARCH --self-contained --no-restore -c Release -o /app
 
