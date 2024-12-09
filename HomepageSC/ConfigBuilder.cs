@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.RegularExpressions;
 using k8s;
 using k8s.Models;
 using Microsoft.Extensions.Options;
@@ -7,6 +8,7 @@ namespace HomepageSC;
 
 public class ConfigBuilder(IKubernetes kubeClientObject, IOptions<SidecarOptions> sidecarOptions)
 {
+    private readonly Regex _normalisePathRegex = new("[^a-zA-Z0-9_.]+", RegexOptions.Compiled);
     private readonly SidecarOptions _options = sidecarOptions.Value;
 
     public async Task<Dictionary<string, Dictionary<string, Service>>> Build(V1IngressList ingressData,
@@ -131,7 +133,7 @@ public class ConfigBuilder(IKubernetes kubeClientObject, IOptions<SidecarOptions
     private static string ExtractAppName(V1Ingress ingress, V1HTTPIngressPath? path) =>
         $"{ingress.Metadata.Name}{(path?.Path.Trim('/') is {Length: > 0} p ? $"/{p}" : string.Empty)}";
 
-    private static string? GetAnnotationValue(Func<string?, string> annotationFunc, V1Ingress ingress, V1HTTPIngressPath? path)
+    private string? GetAnnotationValue(Func<string?, string> annotationFunc, V1Ingress ingress, V1HTTPIngressPath? path)
     {
         var pathIdentifier = GetPathIdentifier(path);
         var annotation = annotationFunc(pathIdentifier);
@@ -140,8 +142,8 @@ public class ConfigBuilder(IKubernetes kubeClientObject, IOptions<SidecarOptions
         return val;
     }
 
-    private static string? GetPathIdentifier(V1HTTPIngressPath? path) =>
-        path == null ? null : $"{path.Backend.Service.Name}-{path.Backend.Service.Port.Number}";
+    private string? GetPathIdentifier(V1HTTPIngressPath? path) =>
+        path == null ? null : $"{_normalisePathRegex.Replace(path.Backend.Service.Name, "_")}_{path.Backend.Service.Port.Number}";
 
     private static string? Get(V1Ingress ingress, string attributeName)
     {
