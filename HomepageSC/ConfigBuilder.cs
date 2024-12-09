@@ -141,7 +141,7 @@ public class ConfigBuilder(IKubernetes kubeClientObject, IOptions<SidecarOptions
     }
 
     private static string? GetPathIdentifier(V1HTTPIngressPath? path) =>
-        path == null ? null : $"{path.Backend.Service.Name}:{path.Backend.Service.Port.Number}";
+        path == null ? null : $"{path.Backend.Service.Name}-{path.Backend.Service.Port.Number}";
 
     private static string? Get(V1Ingress ingress, string attributeName)
     {
