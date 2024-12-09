@@ -36,7 +36,7 @@ public class ConfigBuilder(IKubernetes kubeClientObject, IOptions<SidecarOptions
 
     private async Task CreateService(V1Ingress ingress, V1IngressRule rule, V1HTTPIngressPath path, Dictionary<string, Dictionary<string, Service>> flatConfig, bool singlePath, CancellationToken token)
     {
-        var (enabled, groupName, serviceName, description, icon, target, healthcheck, widgetType, widgetUrl1, widgetSecret, widgetUsernamePasswordSecret) = GetValues(ingress, singlePath ? null : path);
+        var (enabled, groupName, serviceName, urlPath, description, icon, target, healthcheck, widgetType, widgetUrl1, widgetSecret, widgetUsernamePasswordSecret) = GetValues(ingress, singlePath ? null : path);
 
         if (!enabled) return;
 
@@ -44,7 +44,7 @@ public class ConfigBuilder(IKubernetes kubeClientObject, IOptions<SidecarOptions
             ingress.Spec.Tls != null && ingress.Spec.Tls.Any(tls => tls.Hosts.Contains(rule.Host))
                 ? "https"
                 : "http";
-        var url = $"{scheme}://{rule.Host}{path.Path}";
+        var url = $"{scheme}://{rule.Host}{urlPath ?? path.Path}";
 
         Widget? widget = null;
         if (!string.IsNullOrEmpty(widgetType))
@@ -119,6 +119,7 @@ public class ConfigBuilder(IKubernetes kubeClientObject, IOptions<SidecarOptions
             enabled,
             GetAnnotationValue(AnnotationKey.Group, ingress, path) ?? "Default",
             GetAnnotationValue(AnnotationKey.AppName, ingress, path) ?? ExtractAppName(ingress, path),
+            GetAnnotationValue(AnnotationKey.UrlPath, ingress, path),
             GetAnnotationValue(AnnotationKey.Description, ingress, path),
             GetAnnotationValue(AnnotationKey.Icon, ingress, path),
             GetAnnotationValue(AnnotationKey.Target, ingress, path),
@@ -154,6 +155,7 @@ public class ConfigBuilder(IKubernetes kubeClientObject, IOptions<SidecarOptions
         bool Enabled,
         string Group,
         string AppName,
+        string? UrlPath,
         string? Description,
         string? Icon,
         string? Target,

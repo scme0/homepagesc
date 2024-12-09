@@ -8,6 +8,7 @@ public static class AnnotationKey
     public static string WidgetSecret(string? name = null) => CreateAnnotation("widget_secret", name);
     public static string WidgetUrl(string? name = null) => CreateAnnotation("widget_url", name);
     public static string WidgetUsernamePasswordSecret(string? name = null) => CreateAnnotation("widget_username_password_secret", name);
+    public static string UrlPath(string? name = null) => CreateAnnotation("url_path", name);
     public static string Target(string? name = null) => CreateAnnotation("target", name);
     public static string Description(string? name = null) => CreateAnnotation("description", name);
     public static string Icon(string? name = null) => CreateAnnotation("icon", name);
