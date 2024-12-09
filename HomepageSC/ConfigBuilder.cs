@@ -137,9 +137,7 @@ public class ConfigBuilder(IKubernetes kubeClientObject, IOptions<SidecarOptions
     {
         var pathIdentifier = GetPathIdentifier(path);
         var annotation = annotationFunc(pathIdentifier);
-        var val = Get(ingress, annotation);
-        Console.WriteLine($"Ingress: {ingress.Metadata?.Name}, path: {pathIdentifier}, Annotation: {annotation}, Value: {val}");
-        return val;
+        return Get(ingress, annotation);
     }
 
     private string? GetPathIdentifier(V1HTTPIngressPath? path) =>
