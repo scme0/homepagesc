@@ -14,6 +14,6 @@ public static class AnnotationKey
     public static string Healthcheck(string? name = null) => CreateAnnotation("healthCheck", name);
     public static string AppName(string? name = null) => CreateAnnotation("appName", name);
 
-    private static string CreateAnnotation(string label, string? name = null) => name is not null ? Path.Combine(Base, name, label) : Path.Combine(Base, label);
+    private static string CreateAnnotation(string label, string? name = null) => name is not null ? Path.Combine(Base, $"{name}_{label}") : Path.Combine(Base, label);
     private const string Base = "homepagesc.io";
 }
