@@ -84,10 +84,10 @@ metadata:
   name: ghost
   namespace: publishing
   annotations:
-    homepagesc.neutrino.io/appName: Awesome Blog
-    homepagesc.neutrino.io/group: Publishing
-    homepagesc.neutrino.io/healthCheck: http://ghost.publish.svc.cluster.local:2368/ghost/api/v3/admin/site
-    homepagesc.neutrino.io/icon: https://github.com/walkxcode/dashboard-icons/raw/main/png/ghost.png
+    homepagesc.io/appName: Awesome Blog
+    homepagesc.io/group: Publishing
+    homepagesc.io/healthCheck: http://ghost.publish.svc.cluster.local:2368/ghost/api/v3/admin/site
+    homepagesc.io/icon: https://github.com/walkxcode/dashboard-icons/raw/main/png/ghost.png
 spec:
   rules:
   - host: www.awesomeblog.com
@@ -119,7 +119,7 @@ HomepageSC exposes extra Homepage configuration options using ingress annotation
 | `homepagesc.io/widget_type`         | Use to specify the type of widget to be rendered for this service. Widget's are documented on the [service widget](https://gethomepage.dev/en/configs/service-widgets/) page.                                                                                                                                                                                                                                                                                                                                                            |
 | `homepagesc.io/widget_secret`       | Specify a widget secret to be added to the `key` field of the widget config. The secret locator format is `{namespace}/{secretName}/{secretField}`.                                                                                                                                                                                                                                                                                                                                                                                      |
 | `homepagesc.io/widget_url`          | Specify a widget url if it's different from the ingress host/path.                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| `homepagesc.io/widget_username_and_password_secret`          | Specify a widget secret that contains `username` and `password` keys for widgets that require username and password. format: `{namespace}/{secretName`.                                                                                                                                                                                                                                                                                                                                                                                      |
+| `homepagesc.io/widget_username_and_password_secret`          | Specify a widget secret that contains `username` and `password` keys for widgets that require username and password. format: `{namespace}/{secretName}`.                                                                                                                                                                                                                                                                                                                                                                                      |
 
 ### Settings
 
@@ -128,9 +128,9 @@ HomepageSC or global service settings can be configured using environment variab
 | Env Var            | Command Line                                              | Default       | Description                                                                                                                                                                                                |
 |--------------------|-----------------------------------------------------------|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `INCLUSTER`        | `--InCluster` or `--InCluster=[true,false]`               | `FALSE`       | By default HomepageSC runs in development mode, using your configured kubeconfig. Set this to tell HomepageSC to retrieve config from the cluster it is running in.                                        |
-| `INCLUDEBYDEFAULT` | `--IncludeByDefault` or `--IncludeByDefault=[true,false]` | `true`        | Defines the behaviour for ingresses which do not have the `homepagesc.neutrino.io/enable` annotation. Set to false to require services to be explicitly enabled.                                           |
+| `INCLUDEBYDEFAULT` | `--IncludeByDefault` or `--IncludeByDefault=[true,false]` | `true`        | Defines the behaviour for ingresses which do not have the `homepagesc.io/enable` annotation. Set to false to require services to be explicitly enabled.                                           |
 | `OUTPUTLOCATION`   | `--OutputLocation=/app/config/service.yaml`               | `undefined`   | Instruct HomepageSC to write configuration to a location on disk. This should be `service.yaml` within the HomePage configuration directory. Default behaviour is to write config to stdout to validation. |
-| `DEFAULTTARGET`    | `--DefaultTarget=[_blank,_self,_top]`                     | `undefined`   | Change the behaviour of links for all services (which do not specify their own `homepagesc.neutrino.io/target` annotation).                                                                                |
+| `DEFAULTTARGET`    | `--DefaultTarget=[_blank,_self,_top]`                     | `undefined`   | Change the behaviour of links for all services (which do not specify their own `homepagesc.io/target` annotation).                                                                                |
 
 
 ## Contributing
