@@ -42,7 +42,7 @@ spec:
             - mountPath: "/app/config" # Mount the shared config directory
               name: shared-data
         - name: homepagesc
-          image: 'ghcr.io/uatec/homepagesc:latest'
+          image: 'scottyjoe9/homepagesc:latest'
           volumeMounts:
             - mountPath: "/app/config" # Mount the shared config directory
               name: shared-data
